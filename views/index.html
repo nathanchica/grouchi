@@ -22,74 +22,35 @@
 
             <main>
                 <div class="mx-auto mt-12 max-w-2xl overflow-hidden rounded-lg bg-orange-50 shadow-lg">
-                    <img
-                        alt="Groucho and Chica laying down together"
-                        src="/img/20231224_021428.jpg"
-                        class="max-h-[480px] w-full object-cover"
-                    />
-                    <div class="p-8">
-                        <h2 class="mb-4 text-2xl font-bold text-gray-800">About Groucho and Chica</h2>
-                        <ul
-                            role="list"
-                            class="list-inside list-disc space-y-2 text-gray-700"
-                            hx-get="/api/cats/about"
-                            hx-trigger="load"
-                            hx-swap="innerHTML"
-                        >
-                            <li>Loading...</li>
-                        </ul>
+                    <div
+                        id="about-section"
+                        hx-get="/api/cats/about/groucho_and_chica"
+                        hx-trigger="load"
+                        hx-swap="innerHTML"
+                    >
+                        <img
+                            alt="Groucho and Chica laying down together"
+                            src="/img/about_grouchi_1.jpg"
+                            class="max-h-[480px] w-full object-cover"
+                        />
+                        <div class="p-8">
+                            <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                        </div>
                     </div>
                 </div>
 
                 <div class="mx-auto mt-12 max-w-2xl rounded-lg border-2 border-gray-900 bg-white p-8 shadow-lg">
-                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Learn More About Them</h2>
+                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Learn More</h2>
 
-                    <div class="flex flex-row gap-4">
-                        <div
-                            class="group relative flex-1 cursor-pointer"
-                            hx-get="/api/cats/1"
-                            hx-target="#cat-details"
-                            hx-swap="innerHTML"
-                        >
-                            <img
-                                alt="Groucho laying on a woven blanket"
-                                src="/img/2023_0912_00053500_1.jpg"
-                                class="max-h-[480px] w-full object-cover"
-                            />
-                            <div
-                                class="backdrop-blur-0 absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-xs"
-                            >
-                                <p
-                                    class="font-family-playfair text-xl font-bold text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                                >
-                                    Groucho
-                                </p>
-                            </div>
-                        </div>
-                        <div
-                            class="group relative flex-1 cursor-pointer"
-                            hx-get="/api/cats/2"
-                            hx-target="#cat-details"
-                            hx-swap="innerHTML"
-                        >
-                            <img
-                                alt="Chica by the window"
-                                src="/img/IMG_0135_1.jpg"
-                                class="max-h-[480px] w-full object-cover"
-                            />
-                            <div
-                                class="backdrop-blur-0 absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-xs"
-                            >
-                                <p
-                                    class="font-family-playfair text-xl font-bold text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                                >
-                                    Chica
-                                </p>
-                            </div>
-                        </div>
+                    <div
+                        id="about-navigation-section"
+                        class="flex flex-row gap-4"
+                        hx-get="/api/cats/about_navigation/groucho_and_chica"
+                        hx-trigger="load"
+                        hx-swap="innerHTML"
+                    >
+                        <div class="flex-1 text-center">Loading navigation...</div>
                     </div>
-
-                    <div id="cat-details" class="mt-4"></div>
                 </div>
             </main>
 
