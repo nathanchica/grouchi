@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-family-playfair: 'Playfair Display', serif;
+    --font-family-merriweather: 'Merriweather', serif;
+}
