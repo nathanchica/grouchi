@@ -29,26 +29,14 @@
                     />
                     <div class="p-8">
                         <h2 class="mb-4 text-2xl font-bold text-gray-800">About Groucho and Chica</h2>
-                        <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
-                            <li><strong>Gotcha day:</strong> November 10, 2021</li>
-                            <li>
-                                Adopted from
-                                <a
-                                    class="text-orange-600 hover:underline"
-                                    href="https://www.sfspca.org/"
-                                    target="_blank"
-                                    >SF SPCA</a
-                                >
-                            </li>
-                            <li>The names, Groucho and Chica, are from the shelter</li>
-                            <li>They were in the same shelter room and bonded together</li>
-                            <li>Not siblings, but they have similar fur patterns</li>
-                            <li>Both are American Shorthair cats</li>
-                            <li>
-                                Both are born on July 2, 2021 (currently
-                                <span hx-get="/api/age" hx-trigger="load" hx-swap="innerHTML">calculating...</span>)
-                            </li>
-                            <li>They love to play and sleep together</li>
+                        <ul
+                            role="list"
+                            class="list-inside list-disc space-y-2 text-gray-700"
+                            hx-get="/api/cats/about"
+                            hx-trigger="load"
+                            hx-swap="innerHTML"
+                        >
+                            <li>Loading...</li>
                         </ul>
                     </div>
                 </div>
