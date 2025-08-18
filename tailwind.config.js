@@ -4,7 +4,13 @@ export default {
         files: ['./views/**/*.html', './public/**/*.js']
     },
     theme: {
-        extend: {}
+        extend: {
+            fontFamily: {
+                playfair: ['Playfair Display', 'serif'],
+                merriweather: ['Merriweather', 'serif'],
+                lora: ['Lora', 'serif']
+            }
+        }
     },
     plugins: []
 };
