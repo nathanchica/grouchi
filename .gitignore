@@ -119,6 +119,9 @@ dist
 # Firebase cache directory
 .firebase/
 
+# Tailwind generated css file
+public/css/output.css
+
 # TernJS port file
 .tern-port
 

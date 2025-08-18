@@ -1,0 +1,20 @@
+{
+    "semi": true,
+    "tabWidth": 4,
+    "printWidth": 120,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "plugins": ["prettier-plugin-tailwindcss"],
+    "tailwindAttributes": ["class", "className"],
+    "tailwindFunctions": ["clsx", "cn"],
+    "htmlWhitespaceSensitivity": "css",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "parser": "html",
+                "printWidth": 120
+            }
+        }
+    ]
+}

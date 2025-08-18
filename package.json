@@ -1,20 +1,53 @@
 {
-  "name": "grouchi",
-  "version": "1.0.0",
-  "description": "A HTMX + TailwindCSS + Express app about my cats, Groucho and Chica!",
-  "homepage": "https://github.com/nathanchica/grouchi#readme",
-  "bugs": {
-    "url": "https://github.com/nathanchica/grouchi/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nathanchica/grouchi.git"
-  },
-  "license": "ISC",
-  "author": "Nathan Chica",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+    "name": "grouchi",
+    "version": "1.0.0",
+    "description": "A HTMX + TailwindCSS + Express app about my cats, Groucho and Chica!",
+    "homepage": "https://github.com/nathanchica/grouchi#readme",
+    "bugs": {
+        "url": "https://github.com/nathanchica/grouchi/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/nathanchica/grouchi.git"
+    },
+    "license": "ISC",
+    "author": "Nathan Chica",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "dev": "concurrently \"npm run dev:server\" \"npm run dev:css\"",
+        "dev:server": "nodemon index.js",
+        "dev:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/output.css --watch",
+        "start": "node index.js",
+        "build-css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/output.css",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prepare": "husky"
+    },
+    "dependencies": {
+        "express": "^5.1.0"
+    },
+    "lint-staged": {
+        "*.js": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.{json,md,html,css}": [
+            "prettier --write"
+        ]
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.33.0",
+        "@tailwindcss/cli": "^4.1.12",
+        "concurrently": "^9.2.0",
+        "eslint": "^9.33.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-tailwindcss": "^4.0.0-beta.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.1.5",
+        "nodemon": "^3.1.10",
+        "prettier": "^3.6.2",
+        "prettier-plugin-tailwindcss": "^0.6.14",
+        "tailwindcss": "^4.1.12"
+    }
 }
