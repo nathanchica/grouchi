@@ -90,25 +90,52 @@ function calculateAge(birthDate: Date): Age {
     return { years, months };
 }
 
-function renderNavigationItem(item: NavigationItem): string {
+function renderNavigationItem({ targetView, targetGallery, imgSrc, imgAlt, label }: NavigationItem): string {
     // Create a user-friendly URL path - replace all underscores with hyphens
-    const urlPath = item.targetView.replace(/_/g, '-');
+    const urlPath = targetView.replace(/_/g, '-');
 
     return /* html */ `
         <div
             class="group relative flex-1 cursor-pointer" 
-            hx-get="/api/cats/about/${item.targetView}" 
+            hx-get="/api/cats/about/${targetView}" 
             hx-target="#about-section" 
             hx-swap="innerHTML show:window:top"
             hx-push-url="/cats/${urlPath}"
-            hx-on::after-request="htmx.ajax('GET', '/api/cats/about_navigation/${item.targetGallery}', '#about-navigation-section')"
+            hx-on::after-request="htmx.ajax('GET', '/api/cats/about_navigation/${targetGallery}', '#about-navigation-section')"
         >
-            <img alt="${item.imgAlt}" src="${item.imgSrc}" class="max-h-[480px] w-full object-cover" />
+            <img alt="${imgAlt}" src="${imgSrc}" class="max-h-[480px] w-full object-cover" />
             <div class="backdrop-blur-0 absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-xs">
                 <p class="font-family-playfair text-xl font-bold text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    ${item.label}
+                    ${label}
                 </p>
             </div>
+        </div>
+    `;
+}
+
+interface AboutSectionProps {
+    imageSrc: string;
+    imageAlt: string;
+    title: string;
+    subtitle?: string;
+    aboutItems: Array<string>;
+}
+
+function renderAboutSection({ imageSrc, imageAlt, title, subtitle, aboutItems }: AboutSectionProps): string {
+    const listHtml = aboutItems.map((item) => `<li>${item}</li>`).join('');
+
+    return /* html */ `
+        <img
+            alt="${imageAlt}"
+            src="${imageSrc}"
+            class="max-h-[480px] w-full object-cover"
+        />
+        <div class="p-8">
+            <h2 class="mb-${subtitle ? '2' : '4'} text-2xl font-bold text-gray-800">${title}</h2>
+            ${subtitle ? /* html */ `<p class="mb-4 text-gray-500 italic">${subtitle}</p>` : ''}
+            <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
+                ${listHtml}
+            </ul>
         </div>
     `;
 }
@@ -176,11 +203,11 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
 
 router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
     const birthDate = new Date('2021-07-02');
-    const age = calculateAge(birthDate);
+    const { years, months } = calculateAge(birthDate);
 
-    let ageText = `${age.years} year${age.years !== 1 ? 's' : ''}`;
-    if (age.months > 0) {
-        ageText += ` and ${age.months} month${age.months !== 1 ? 's' : ''}`;
+    let ageText = `${years} year${years !== 1 ? 's' : ''}`;
+    if (months > 0) {
+        ageText += ` and ${months} month${months !== 1 ? 's' : ''}`;
     }
     ageText += ' old';
 
@@ -199,20 +226,13 @@ router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
         'Let them approach you at their own pace!'
     ];
 
-    const listHtml = aboutItems.map((item) => `<li>${item}</li>`).join('');
-    const html = /* html */ `
-        <img
-            alt="Groucho and Chica laying down together"
-            src="/img/about_grouchi_1.jpg"
-            class="max-h-[480px] w-full object-cover"
-        />
-        <div class="p-8">
-            <h2 class="mb-4 text-2xl font-bold text-gray-800">About Groucho and Chica</h2>
-            <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
-                ${listHtml}
-            </ul>
-        </div>
-    `;
+    const html = renderAboutSection({
+        imageSrc: '/img/about_grouchi_1.jpg',
+        imageAlt: 'Groucho and Chica laying down together',
+        title: 'About Groucho and Chica',
+        aboutItems
+    });
+
     res.send(html);
 });
 
@@ -228,29 +248,16 @@ router.get('/about/:name', (req: Request, res: Response): void => {
         return;
     }
 
-    const {
-        aboutItems,
-        displayName,
-        displayPronouns,
-        coverPhotoImgSrc: imageSrc,
-        coverPhotoImgAlt: imageAlt
-    } = catsData[catName];
+    const { aboutItems, displayName, displayPronouns, coverPhotoImgSrc, coverPhotoImgAlt } = catsData[catName];
 
-    const listHtml = aboutItems.map((item) => `<li>${item}</li>`).join('');
-    const html = /* html */ `
-        <img
-            alt="${imageAlt}"
-            src="${imageSrc}"
-            class="max-h-[480px] w-full object-cover"
-        />
-        <div class="p-8">
-            <h2 class="mb-2 text-2xl font-bold text-gray-800">About ${displayName}</h2>
-            <p class="mb-4 text-sm text-gray-500 italic">${displayPronouns}</p>
-            <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
-                ${listHtml}
-            </ul>
-        </div>
-    `;
+    const html = renderAboutSection({
+        imageSrc: coverPhotoImgSrc,
+        imageAlt: coverPhotoImgAlt,
+        title: `About ${displayName}`,
+        subtitle: displayPronouns,
+        aboutItems
+    });
+
     res.send(html);
 });
 
