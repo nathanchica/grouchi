@@ -1,10 +1,10 @@
-import express from 'express';
+import express, { Express } from 'express';
 import indexRoutes from './routes/index.js';
 import catRoutes from './routes/cats.js';
 import ageRoutes from './routes/age.js';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app: Express = express();
+const PORT: number = parseInt(process.env.PORT || '3000', 10);
 
 // Middleware
 app.use(express.static('public'));
