@@ -1,8 +1,16 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
-const router = Router();
+const router: Router = Router();
 
-const cats = [
+interface Cat {
+    id: number;
+    name: string;
+    personality: string;
+    favoriteToy: string;
+    fact: string;
+}
+
+const cats: Cat[] = [
     {
         id: 1,
         name: 'Groucho',
@@ -19,7 +27,7 @@ const cats = [
     }
 ];
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req: Request, res: Response): void => {
     const catId = parseInt(req.params.id);
     const cat = cats.find((c) => c.id === catId);
 

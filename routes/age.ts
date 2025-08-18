@@ -1,8 +1,13 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
-const router = Router();
+const router: Router = Router();
 
-function calculateAge(birthDate) {
+interface Age {
+    years: number;
+    months: number;
+}
+
+function calculateAge(birthDate: Date): Age {
     const today = new Date();
 
     let years = today.getFullYear() - birthDate.getFullYear();
@@ -20,7 +25,7 @@ function calculateAge(birthDate) {
     return { years, months };
 }
 
-router.get('/', (_req, res) => {
+router.get('/', (_req: Request, res: Response): void => {
     const birthDate = new Date('2021-07-02');
     const age = calculateAge(birthDate);
 
