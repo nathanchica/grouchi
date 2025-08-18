@@ -1,0 +1,20 @@
+{
+  "name": "grouchi",
+  "version": "1.0.0",
+  "description": "A HTMX + TailwindCSS + Express app about my cats, Groucho and Chica!",
+  "homepage": "https://github.com/nathanchica/grouchi#readme",
+  "bugs": {
+    "url": "https://github.com/nathanchica/grouchi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanchica/grouchi.git"
+  },
+  "license": "ISC",
+  "author": "Nathan Chica",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
