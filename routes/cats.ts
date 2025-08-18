@@ -131,7 +131,7 @@ function renderAboutSection({ imageSrc, imageAlt, title, subtitle, aboutItems }:
             class="max-h-[480px] w-full object-cover"
         />
         <div class="p-8">
-            <h2 class="mb-${subtitle ? '2' : '4'} text-2xl font-bold text-gray-800">${title}</h2>
+            <h2 class="${subtitle ? 'mb-2' : 'mb-4'} text-2xl font-bold text-gray-800">${title}</h2>
             ${subtitle ? /* html */ `<p class="mb-4 text-gray-500 italic">${subtitle}</p>` : ''}
             <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
                 ${listHtml}
