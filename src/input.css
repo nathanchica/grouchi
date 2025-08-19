@@ -76,13 +76,20 @@
 }
 
 /* Delay loading indicator appearance */
-.htmx-indicator {
-    opacity: 0;
-    transition: opacity 0.2s ease-in 0.5s;
+#photo-carousel .htmx-indicator {
+    opacity: 0 !important;
+    visibility: hidden;
+    transition:
+        opacity 0.2s ease-in 0.5s,
+        visibility 0s linear 0.5s;
 }
 
-.htmx-request .htmx-indicator {
-    opacity: 1;
+#photo-carousel.htmx-request .htmx-indicator {
+    opacity: 1 !important;
+    visibility: visible;
+    transition:
+        opacity 0.2s ease-in 0.5s,
+        visibility 0s linear 0s;
 }
 
 .animate-fade-out {
