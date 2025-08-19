@@ -5,7 +5,6 @@
     --font-family-merriweather: 'Merriweather', serif;
 }
 
-/* HTMX loading states */
 .htmx-request.htmx-swapping {
     opacity: 0.6;
     pointer-events: none;
@@ -26,12 +25,11 @@
     }
 }
 
-/* Change cursor during request */
 .htmx-request {
     cursor: wait !important;
 }
 
-/* Optional: Add a subtle pulse to the element being updated */
+/* Add a subtle pulse to the element being updated */
 .htmx-request:not(.htmx-swapping) {
     animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
