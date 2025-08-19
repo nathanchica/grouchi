@@ -31,7 +31,7 @@ export default [
                 __filename: 'readonly'
             },
             parserOptions: {
-                project: './tsconfig.json'
+                project: './tsconfig.eslint.json'
             }
         },
         rules: {

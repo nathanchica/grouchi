@@ -39,7 +39,14 @@ describe('calculateAge', () => {
             expectedMonths: 9,
             scenario: 'dates are of different years but age is under 1 year'
         },
-        { currentDate: '2024-03-15', birthDate: '2024-03-15', expectedYears: 0, expectedMonths: 0, scenario: 'today' },
+        // prettier-ignore
+        {
+            currentDate: '2024-03-15',
+            birthDate: '2024-03-15',
+            expectedYears: 0,
+            expectedMonths: 0,
+            scenario: 'today',
+        },
         {
             currentDate: '2024-03-15',
             birthDate: '2024-02-15',
