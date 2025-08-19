@@ -1,8 +1,8 @@
 import { Router, Request, Response } from 'express';
 import { calculateAge } from '../src/utils/date.js';
 import { renderNavigationItem, NavigationItemProps } from '../src/components/navigation.js';
-import { renderAboutSection } from '../src/components/about.js';
-import { catsData } from '../src/data/cats.js';
+import { renderAboutSection, renderPhotoCarousel } from '../src/components/about.js';
+import { catsData, VALID_ALIASES } from '../src/data/cats.js';
 import { getAssetUrl } from '../src/utils/assets.js';
 
 const router: Router = Router();
@@ -88,11 +88,15 @@ router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
         'Let them approach you at their own pace!'
     ];
 
+    const { displayName, photos } = catsData.groucho_and_chica;
+
     const html = renderAboutSection({
-        imageSrc: getAssetUrl('groucho_and_chica', 1),
-        imageAlt: 'Groucho and Chica laying down together',
-        title: 'About Groucho and Chica',
-        aboutItems
+        alias: 'groucho_and_chica',
+        title: `About ${displayName}`,
+        aboutItems,
+        initialPhoto: photos[0],
+        photos,
+        numPhotos: photos.length
     });
 
     res.send(html);
@@ -110,14 +114,61 @@ router.get('/about/:name', (req: Request, res: Response): void => {
         return;
     }
 
-    const { aboutItems, displayName, displayPronouns, coverPhotoImgSrc, coverPhotoImgAlt } = catsData[catName];
+    const { aboutItems, displayName, displayPronouns, photos } = catsData[catName];
 
     const html = renderAboutSection({
-        imageSrc: coverPhotoImgSrc,
-        imageAlt: coverPhotoImgAlt,
+        alias: catName,
         title: `About ${displayName}`,
         subtitle: displayPronouns,
-        aboutItems
+        aboutItems: aboutItems,
+        initialPhoto: photos[0],
+        photos,
+        numPhotos: photos.length
+    });
+
+    res.send(html);
+});
+
+router.get('/about/:alias/photos/:index', (req: Request, res: Response): void => {
+    const catAlias = req.params.alias.toLowerCase();
+    const transitionDirection = req.query.direction as 'next' | 'prev' | undefined;
+
+    if (!VALID_ALIASES.includes(catAlias)) {
+        res.status(404).send(/* html */ `
+            <div class="p-8">
+                <h2 class="mb-4 text-2xl font-bold text-red-500">Cat not found!</h2>
+            </div>
+        `);
+        return;
+    }
+
+    const photoIndex = parseInt(req.params.index);
+    const { photos } = catsData[catAlias];
+
+    if (isNaN(photoIndex) || photoIndex < 0 || photoIndex >= photos.length) {
+        res.status(404).send(/* html */ `<div class="text-red-500">Photo not found</div>`);
+        return;
+    }
+
+    const numPhotos = photos.length;
+    const nextPhotoIndex = (photoIndex + 1) % numPhotos;
+    const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
+
+    const { src, altText } = photos[photoIndex];
+    const nextImageSrc = photos[nextPhotoIndex]?.src;
+    const prevImageSrc = photos[prevPhotoIndex]?.src;
+
+    const html = renderPhotoCarousel({
+        imageSrc: src,
+        imageAlt: altText,
+        alias: catAlias,
+        nextIndex: nextPhotoIndex,
+        prevIndex: prevPhotoIndex,
+        nextImageSrc,
+        prevImageSrc,
+        currentIndex: photoIndex,
+        numPhotos,
+        transitionDirection
     });
 
     res.send(html);
