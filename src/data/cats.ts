@@ -1,4 +1,5 @@
 import { Cat } from '../types/cat.js';
+import { getAssetUrl } from '../utils/assets.js';
 
 export const catsData: { [alias: string]: Cat } = {
     groucho: {
@@ -18,9 +19,9 @@ export const catsData: { [alias: string]: Cat } = {
             'Loves head scratches',
             'Prefers horizontal scratch surfaces'
         ],
-        coverPhotoImgSrc: '/img/about_groucho_1.jpg',
+        coverPhotoImgSrc: getAssetUrl('groucho', 1),
         coverPhotoImgAlt: 'Groucho the Cat, laying down',
-        navigationThumbnailImgSrc: '/img/about_groucho_thumbnail.jpg',
+        navigationThumbnailImgSrc: getAssetUrl('groucho', 'nav'),
         navigationThumbnailImgAlt: 'Groucho the Cat, laying on a woven blanket'
     },
     chica: {
@@ -40,9 +41,9 @@ export const catsData: { [alias: string]: Cat } = {
             'Loves whole body pets',
             'Prefers vertical scratch surfaces'
         ],
-        coverPhotoImgSrc: '/img/about_chica_1.jpg',
+        coverPhotoImgSrc: getAssetUrl('chica', 1),
         coverPhotoImgAlt: 'Chica the Cat, laying down on a drying rack',
-        navigationThumbnailImgSrc: '/img/about_chica_thumbnail.jpg',
+        navigationThumbnailImgSrc: getAssetUrl('chica', 'nav'),
         navigationThumbnailImgAlt: 'Chica the Cat, sitting by a window overlooking a city'
     }
 };

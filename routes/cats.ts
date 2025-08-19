@@ -3,6 +3,7 @@ import { calculateAge } from '../src/utils/date.js';
 import { renderNavigationItem, NavigationItemProps } from '../src/components/navigation.js';
 import { renderAboutSection } from '../src/components/about.js';
 import { catsData } from '../src/data/cats.js';
+import { getAssetUrl } from '../src/utils/assets.js';
 
 const router: Router = Router();
 
@@ -12,7 +13,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
     const { groucho, chica } = catsData;
     const grouchoAndChicaNavigationItem: NavigationItemProps = {
         targetAlias: 'groucho_and_chica',
-        imgSrc: '/img/about_grouchi_thumbnail.jpg',
+        imgSrc: getAssetUrl('groucho_and_chica', 'nav'),
         imgAlt: 'Groucho and Chica together',
         label: 'Groucho & Chica'
     };
@@ -88,7 +89,7 @@ router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
     ];
 
     const html = renderAboutSection({
-        imageSrc: '/img/about_grouchi_1.jpg',
+        imageSrc: getAssetUrl('groucho_and_chica', 1),
         imageAlt: 'Groucho and Chica laying down together',
         title: 'About Groucho and Chica',
         aboutItems
