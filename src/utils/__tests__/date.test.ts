@@ -37,7 +37,7 @@ describe('calculateAge', () => {
             birthDate: '2023-05-20',
             expectedYears: 0,
             expectedMonths: 9,
-            scenario: 'later month of same year'
+            scenario: 'dates are of different years but age is under 1 year'
         },
         { currentDate: '2024-03-15', birthDate: '2024-03-15', expectedYears: 0, expectedMonths: 0, scenario: 'today' },
         {
@@ -109,6 +109,19 @@ describe('calculateAge', () => {
 
         expect(age.years).toBe(expectedYears);
         expect(age.months).toBe(expectedMonths);
+    });
+
+    describe('future date validation', () => {
+        it.each([
+            { currentDate: '2024-03-15', birthDate: '2024-03-16', scenario: 'one day in the future' },
+            { currentDate: '2024-03-15', birthDate: '2025-03-15', scenario: 'one year in the future' },
+            { currentDate: '2024-03-15', birthDate: '2024-04-15', scenario: 'one month in the future' },
+            { currentDate: '2024-03-15', birthDate: '2030-01-01', scenario: 'several years in the future' }
+        ])('should throw error for $scenario', ({ currentDate, birthDate }) => {
+            vi.setSystemTime(new Date(currentDate));
+
+            expect(() => calculateAge(new Date(birthDate))).toThrowError('Birth date cannot be in the future');
+        });
     });
 
     describe('edge cases', () => {
