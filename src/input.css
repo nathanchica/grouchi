@@ -45,6 +45,11 @@
 }
 
 /* Photo carousel transitions */
+#photo-carousel img {
+    opacity: 1;
+    transform: translateX(0);
+}
+
 #photo-carousel[data-direction='next'] img {
     animation: slideFromRight 0.3s ease-out forwards;
 }
@@ -54,24 +59,16 @@
 }
 
 @keyframes slideFromRight {
-    0% {
+    from {
         opacity: 0;
         transform: translateX(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
     }
 }
 
 @keyframes slideFromLeft {
-    0% {
+    from {
         opacity: 0;
         transform: translateX(-30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateX(0);
     }
 }
 
