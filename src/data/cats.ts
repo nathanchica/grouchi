@@ -1,0 +1,48 @@
+import { Cat } from '../types/cat.js';
+
+export const catsData: { [alias: string]: Cat } = {
+    groucho: {
+        alias: 'groucho',
+        displayName: 'Groucho',
+        displayPronouns: 'he/him',
+        aboutItems: [
+            'Conqueror of boxes',
+            'Will definitely let you know when he is hungry',
+            'Very food-motivated',
+            'Definitely need to hide food from him',
+            'First to run away and hide from people and loud noises',
+            'Likes to bother Chica (and me)',
+            'Cuddly and likes to lay on my lap',
+            'Chipped his right fang a long time ago',
+            'Loves climbing',
+            'Loves head scratches',
+            'Prefers horizontal scratch surfaces'
+        ],
+        coverPhotoImgSrc: '/img/about_groucho_1.jpg',
+        coverPhotoImgAlt: 'Groucho the Cat, laying down',
+        navigationThumbnailImgSrc: '/img/about_groucho_thumbnail.jpg',
+        navigationThumbnailImgAlt: 'Groucho the Cat, laying on a woven blanket'
+    },
+    chica: {
+        alias: 'chica',
+        displayName: 'Chica',
+        displayPronouns: 'she/her',
+        aboutItems: [
+            'The mess maker',
+            'Destroyer of furniture and decorations',
+            'Sheds A LOT',
+            'Very quiet',
+            'First to greet me when I come back home (often waiting by the door)',
+            'Very playful (loves chasing, especially loves toy springs)',
+            'Will growl at reflected light and bugs',
+            'Loves bird watching',
+            'Likes to sleep near me',
+            'Loves whole body pets',
+            'Prefers vertical scratch surfaces'
+        ],
+        coverPhotoImgSrc: '/img/about_chica_1.jpg',
+        coverPhotoImgAlt: 'Chica the Cat, laying down on a drying rack',
+        navigationThumbnailImgSrc: '/img/about_chica_thumbnail.jpg',
+        navigationThumbnailImgAlt: 'Chica the Cat, sitting by a window overlooking a city'
+    }
+};
