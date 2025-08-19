@@ -75,6 +75,16 @@
     }
 }
 
+/* Delay loading indicator appearance */
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 0.2s ease-in 0.5s;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1;
+}
+
 .animate-fade-out {
     animation: fadeOut 2s ease-in-out forwards;
 }
