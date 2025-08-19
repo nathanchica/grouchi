@@ -10,7 +10,7 @@ export const catsData: { [alias: string]: Cat } = {
             'Will definitely let you know when he is hungry',
             'Very food-motivated',
             'Definitely need to hide food from him',
-            'First to run away and hide from people and loud noices',
+            'First to run away and hide from people and loud noises',
             'Likes to bother Chica (and me)',
             'Cuddly and likes to lay on my lap',
             'Chipped his right fang a long time ago',

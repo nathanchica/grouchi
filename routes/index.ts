@@ -12,7 +12,7 @@ const router: Router = Router();
  *  Function to generate the HTML with appropriate endpoints
  */
 function generateIndexHtml(aboutEndpoint: string, navEndpoint: string): string {
-    const htmlTemplate = readFileSync(path.join(__dirname, '..', 'views', 'index.html'), 'utf-8');
+    const htmlTemplate = readFileSync(path.join(__dirname, '..', 'views', 'main.html'), 'utf-8');
 
     // Replace the endpoints in the HTML
     return htmlTemplate
