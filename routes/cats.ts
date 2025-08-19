@@ -12,7 +12,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
     const { groucho, chica } = catsData;
     const grouchoAndChicaNavigationItem: NavigationItemProps = {
         targetAlias: 'groucho_and_chica',
-        imgSrc: '/img/about_grouchi_thumbnail.jpg',
+        imgSrc: 'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/groucho-and-chica/grouchi-nav.jpg',
         imgAlt: 'Groucho and Chica together',
         label: 'Groucho & Chica'
     };
@@ -88,7 +88,7 @@ router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
     ];
 
     const html = renderAboutSection({
-        imageSrc: '/img/about_grouchi_1.jpg',
+        imageSrc: 'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/groucho-and-chica/grouchi-1.jpg',
         imageAlt: 'Groucho and Chica laying down together',
         title: 'About Groucho and Chica',
         aboutItems

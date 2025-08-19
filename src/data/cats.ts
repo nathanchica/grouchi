@@ -18,9 +18,10 @@ export const catsData: { [alias: string]: Cat } = {
             'Loves head scratches',
             'Prefers horizontal scratch surfaces'
         ],
-        coverPhotoImgSrc: '/img/about_groucho_1.jpg',
+        coverPhotoImgSrc: 'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/groucho/groucho-1.jpg',
         coverPhotoImgAlt: 'Groucho the Cat, laying down',
-        navigationThumbnailImgSrc: '/img/about_groucho_thumbnail.jpg',
+        navigationThumbnailImgSrc:
+            'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/groucho/groucho-nav.jpg',
         navigationThumbnailImgAlt: 'Groucho the Cat, laying on a woven blanket'
     },
     chica: {
@@ -40,9 +41,10 @@ export const catsData: { [alias: string]: Cat } = {
             'Loves whole body pets',
             'Prefers vertical scratch surfaces'
         ],
-        coverPhotoImgSrc: '/img/about_chica_1.jpg',
+        coverPhotoImgSrc: 'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/chica/chica-1.jpg',
         coverPhotoImgAlt: 'Chica the Cat, laying down on a drying rack',
-        navigationThumbnailImgSrc: '/img/about_chica_thumbnail.jpg',
+        navigationThumbnailImgSrc:
+            'https://cdn.jsdelivr.net/gh/nathanchica/grouchi-assets@main/img/chica/chica-nav.jpg',
         navigationThumbnailImgAlt: 'Chica the Cat, sitting by a window overlooking a city'
     }
 };
