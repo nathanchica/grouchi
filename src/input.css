@@ -29,8 +29,8 @@
     cursor: wait !important;
 }
 
-/* Add a subtle pulse to the element being updated */
-.htmx-request:not(.htmx-swapping) {
+/* Add a subtle pulse to the element being updated (but not photo carousel) */
+.htmx-request:not(.htmx-swapping):not(#photo-carousel) {
     animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
