@@ -83,7 +83,7 @@ export function renderPhotoCarousel({
                 showNavigation
                     ? /* html */ `
                 <button
-                    class="absolute top-1/2 -translate-y-1/2 left-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="absolute top-1/2 -translate-y-1/2 left-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50"
                     hx-get="/api/cats/about/${alias}/photos/${prevIndex.toString()}?direction=prev"
                     hx-swap="innerHTML swap:0.3s"
                     hx-target="#photo-carousel"
@@ -93,7 +93,7 @@ export function renderPhotoCarousel({
                     <i class="fa-solid fa-chevron-left text-gray-700"></i>
                 </button>
                 <button
-                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50"
                     hx-get="/api/cats/about/${alias}/photos/${nextIndex.toString()}?direction=next"
                     hx-swap="innerHTML swap:0.3s"
                     hx-target="#photo-carousel"
