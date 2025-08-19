@@ -1,6 +1,11 @@
 import express, { Express } from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import indexRoutes from './routes/index.js';
 import catRoutes from './routes/cats.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || '3000', 10);
@@ -8,7 +13,7 @@ const isVercel = process.env.VERCEL === '1';
 
 // Middleware
 // In Vercel, static files are served from the dist/public directory
-const staticPath = isVercel ? 'dist/public' : 'public';
+const staticPath = isVercel ? path.join(__dirname, 'public') : 'public';
 app.use(express.static(staticPath));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
