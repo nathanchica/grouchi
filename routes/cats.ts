@@ -18,8 +18,7 @@ interface Cat {
 }
 
 interface NavigationItem {
-    targetView: string;
-    targetGallery: string;
+    targetAlias: string;
     imgSrc: string;
     imgAlt: string;
     label: string;
@@ -90,18 +89,18 @@ function calculateAge(birthDate: Date): Age {
     return { years, months };
 }
 
-function renderNavigationItem({ targetView, targetGallery, imgSrc, imgAlt, label }: NavigationItem): string {
+function renderNavigationItem({ targetAlias, imgSrc, imgAlt, label }: NavigationItem): string {
     // Create a user-friendly URL path - replace all underscores with hyphens
-    const urlPath = targetView.replace(/_/g, '-');
+    const urlPath = targetAlias.replace(/_/g, '-');
 
     return /* html */ `
         <div
             class="group relative flex-1 cursor-pointer" 
-            hx-get="/api/cats/about/${targetView}" 
+            hx-get="/api/cats/about/${targetAlias}" 
             hx-target="#about-section" 
             hx-swap="innerHTML show:window:top"
             hx-push-url="/cats/${urlPath}"
-            hx-on::after-request="htmx.ajax('GET', '/api/cats/about_navigation/${targetGallery}', '#about-navigation-section')"
+            hx-on::after-request="htmx.ajax('GET', '/api/cats/about_navigation/${targetAlias}', '#about-navigation-section')"
         >
             <img alt="${imgAlt}" src="${imgSrc}" class="max-h-[480px] w-full object-cover" />
             <div class="backdrop-blur-0 absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-xs">
@@ -145,8 +144,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
 
     const { groucho, chica } = catsData;
     const grouchoAndChicaNavigationItem: NavigationItem = {
-        targetView: 'groucho_and_chica',
-        targetGallery: 'groucho_and_chica',
+        targetAlias: 'groucho_and_chica',
         imgSrc: '/img/about_grouchi_thumbnail.jpg',
         imgAlt: 'Groucho and Chica together',
         label: 'Groucho & Chica'
@@ -155,15 +153,13 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
     const navigationConfigs: Record<string, NavigationItem[]> = {
         groucho_and_chica: [
             {
-                targetView: groucho.alias,
-                targetGallery: groucho.alias,
+                targetAlias: groucho.alias,
                 imgSrc: groucho.navigationThumbnailImgSrc,
                 imgAlt: groucho.navigationThumbnailImgAlt,
                 label: groucho.displayName
             },
             {
-                targetView: chica.alias,
-                targetGallery: chica.alias,
+                targetAlias: chica.alias,
                 imgSrc: chica.navigationThumbnailImgSrc,
                 imgAlt: chica.navigationThumbnailImgAlt,
                 label: chica.displayName
@@ -172,8 +168,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
         groucho: [
             grouchoAndChicaNavigationItem,
             {
-                targetView: chica.alias,
-                targetGallery: chica.alias,
+                targetAlias: chica.alias,
                 imgSrc: chica.navigationThumbnailImgSrc,
                 imgAlt: chica.navigationThumbnailImgAlt,
                 label: chica.displayName
@@ -181,8 +176,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
         ],
         chica: [
             {
-                targetView: groucho.alias,
-                targetGallery: groucho.alias,
+                targetAlias: groucho.alias,
                 imgSrc: groucho.navigationThumbnailImgSrc,
                 imgAlt: groucho.navigationThumbnailImgAlt,
                 label: groucho.displayName
