@@ -22,7 +22,7 @@
         "build": "tsc",
         "build-css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/css/output.css --minify",
         "build:all": "npm run build && npm run build-css && npm run postbuild",
-        "postbuild": "cp -r public dist/",
+        "postbuild": "cp -r public dist/ && cp -r views dist/",
         "start:prod": "node dist/index.js",
         "vercel-build": "npm run build:all",
         "typecheck": "tsc --noEmit",
