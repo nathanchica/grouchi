@@ -144,13 +144,23 @@ router.get('/about/:alias/photos/:index', (req: Request, res: Response): void =>
 
     const photoIndex = parseInt(req.params.index);
     const { photos } = catsData[catAlias];
+    const numPhotos = photos.length;
 
-    if (isNaN(photoIndex) || photoIndex < 0 || photoIndex >= photos.length) {
+    if (isNaN(photoIndex) || photoIndex < 0 || photoIndex >= numPhotos) {
         res.status(404).send(/* html */ `<div class="text-red-500">Photo not found</div>`);
         return;
     }
 
-    const numPhotos = photos.length;
+    // Check ETag early to skip rendering if unchanged
+    const etag = `"${catAlias}-${photoIndex}-${transitionDirection || 'none'}"`;
+    res.setHeader('ETag', etag);
+    res.setHeader('Cache-Control', 's-maxage=3600, max-age=300, stale-while-revalidate=86400');
+
+    if (req.headers['if-none-match'] === etag) {
+        res.status(304).end();
+        return;
+    }
+
     const nextPhotoIndex = (photoIndex + 1) % numPhotos;
     const prevPhotoIndex = photoIndex === 0 ? numPhotos - 1 : photoIndex - 1;
 
