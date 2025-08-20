@@ -40,7 +40,7 @@ export function renderPhotoCarousel({
     return /* html */ `
         <div
             id="photo-carousel"
-            class="relative bg-stone-900"
+            class="relative bg-stone-900 h-[448px]"
             tabindex="0"
             ${transitionDirection ? `data-direction="${transitionDirection}"` : ''}
             role="region"
@@ -65,11 +65,13 @@ export function renderPhotoCarousel({
         >
             ${nextImageSrc ? `<link rel="prefetch" href="${nextImageSrc}" as="image">` : ''}
             ${prevImageSrc ? `<link rel="prefetch" href="${prevImageSrc}" as="image">` : ''}
-            <img
-                alt="${imageAlt}"
-                src="${imageSrc}"
-                class="max-h-[480px] min-h-[360px] w-full object-contain carousel-image"
-            />
+            <div class="absolute inset-0 flex items-center justify-center">
+                <img
+                    alt="${imageAlt}"
+                    src="${imageSrc}"
+                    class="object-contain max-h-full max-w-full"
+                />
+            </div>
             <span class="sr-only" aria-live="polite">Photo ${currentIndex + 1} of ${numPhotos}: ${imageAlt}</span>
             ${
                 showNavigation
@@ -85,7 +87,7 @@ export function renderPhotoCarousel({
                 <button
                     class="absolute top-1/2 -translate-y-1/2 left-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50"
                     hx-get="/api/cats/about/${alias}/photos/${prevIndex.toString()}?direction=prev"
-                    hx-swap="innerHTML swap:0.3s"
+                    hx-swap="outerHTML swap:0.3s"
                     hx-target="#photo-carousel"
                     hx-indicator="#photo-carousel"
                     aria-label="Previous photo"
@@ -95,7 +97,7 @@ export function renderPhotoCarousel({
                 <button
                     class="absolute top-1/2 -translate-y-1/2 right-2 bg-white/50 hover:bg-white/90 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg cursor-pointer transition-all disabled:opacity-50"
                     hx-get="/api/cats/about/${alias}/photos/${nextIndex.toString()}?direction=next"
-                    hx-swap="innerHTML swap:0.3s"
+                    hx-swap="outerHTML swap:0.3s"
                     hx-target="#photo-carousel"
                     hx-indicator="#photo-carousel"
                     aria-label="Next photo"
