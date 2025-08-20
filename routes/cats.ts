@@ -63,7 +63,7 @@ router.get('/about_navigation/:view', (req: Request, res: Response): void => {
     res.send(html);
 });
 
-router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
+router.get('/about/groucho_and_chica', (req: Request, res: Response): void => {
     const birthDate = new Date('2021-07-02');
     const { years, months } = calculateAge(birthDate);
 
@@ -96,7 +96,8 @@ router.get('/about/groucho_and_chica', (_req: Request, res: Response): void => {
         aboutItems,
         initialPhoto: photos[0],
         photos,
-        numPhotos: photos.length
+        numPhotos: photos.length,
+        shouldRenderCarousel: req.query.show_carousel === 'true'
     });
 
     res.send(html);
@@ -123,7 +124,8 @@ router.get('/about/:name', (req: Request, res: Response): void => {
         aboutItems: aboutItems,
         initialPhoto: photos[0],
         photos,
-        numPhotos: photos.length
+        numPhotos: photos.length,
+        shouldRenderCarousel: req.query.show_carousel === 'true'
     });
 
     res.send(html);
