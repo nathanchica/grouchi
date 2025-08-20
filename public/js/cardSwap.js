@@ -1,10 +1,13 @@
 // Card swap functionality for the stacked cards UI
 
+const ANIMATION_DURATION_MS = 500;
+const DURATION_CLASS = `duration-${ANIMATION_DURATION_MS}`;
+
 // Define position styles as constants
 const POSITIONS = {
-    center: 'relative z-10 transition-all duration-500',
-    left: 'absolute left-0 right-0 top-0 -rotate-2 -translate-x-96 translate-y-4 transform transition-all duration-500 hover:-translate-x-[28rem] hover:-rotate-3 hover:translate-y-2 cursor-pointer',
-    right: 'absolute left-0 right-0 top-0 translate-x-96 translate-y-4 rotate-2 transform transition-all duration-500 hover:translate-x-[28rem] hover:rotate-3 hover:translate-y-2 cursor-pointer'
+    center: `relative z-10 transition-all ${DURATION_CLASS}`,
+    left: `absolute left-0 right-0 top-0 -rotate-2 -translate-x-96 translate-y-4 transform transition-all ${DURATION_CLASS} hover:-translate-x-[28rem] hover:-rotate-3 hover:translate-y-2 cursor-pointer`,
+    right: `absolute left-0 right-0 top-0 translate-x-96 translate-y-4 rotate-2 transform transition-all ${DURATION_CLASS} hover:translate-x-[28rem] hover:rotate-3 hover:translate-y-2 cursor-pointer`
 };
 
 let isSwapping = false;
@@ -37,15 +40,19 @@ function getCardsByPosition() {
     return positions;
 }
 
-function updateCardPosition(card, newPosition, clickHandler) {
+function updateCardPosition(card, newPosition) {
     card.element.className = POSITIONS[newPosition];
     card.element.dataset.position = newPosition;
-    card.element.onclick = clickHandler;
 }
 
 function updateCardContent(card, showCarousel) {
     const aboutSection = card.element.querySelector('[id^="about"]');
     if (!aboutSection) return;
+
+    if (typeof htmx === 'undefined') {
+        console.error('HTMX is not loaded');
+        return;
+    }
 
     const endpoint = `/api/cats/about/${card.cat}?show_carousel=${showCarousel}`;
 
@@ -93,13 +100,13 @@ function swapCards(clickedCat) {
 
     // Three-way rotation
     // Clicked -> Center
-    updateCardPosition(clicked, 'center', null);
+    updateCardPosition(clicked, 'center');
 
     // Center -> Opposite of clicked
-    updateCardPosition(center, isLeftClicked ? 'right' : 'left', () => swapCards(center.cat));
+    updateCardPosition(center, isLeftClicked ? 'right' : 'left');
 
     // Other -> Clicked position
-    updateCardPosition(other, isLeftClicked ? 'left' : 'right', () => swapCards(other.cat));
+    updateCardPosition(other, isLeftClicked ? 'left' : 'right');
 
     // Update carousel states
     updateCardContent(clicked, true); // New center gets carousel
@@ -111,8 +118,21 @@ function swapCards(clickedCat) {
     // Re-enable swapping after animation
     setTimeout(() => {
         isSwapping = false;
-    }, 500);
+    }, ANIMATION_DURATION_MS);
 }
 
-// Make swapCards available globally for onclick handlers
-window.swapCards = swapCards;
+document.addEventListener('DOMContentLoaded', function () {
+    const container = document.getElementById('cards-container');
+
+    if (container) {
+        container.addEventListener('click', function (e) {
+            // Find the card element (could be the card itself or a child element)
+            const card = e.target.closest('[data-cat]');
+
+            if (card && card.dataset.position !== 'center') {
+                const catName = card.dataset.cat;
+                swapCards(catName);
+            }
+        });
+    }
+});
