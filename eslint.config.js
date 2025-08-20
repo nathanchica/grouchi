@@ -35,7 +35,6 @@ export default [
             }
         },
         rules: {
-            ...prettierConfig.rules,
             '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-unused-vars': 'off',
             'no-console': 'off',
@@ -59,11 +58,29 @@ export default [
             }
         },
         rules: {
-            ...prettierConfig.rules,
             'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-console': 'off'
         }
     },
+    {
+        files: ['public/js/**/*.js'],
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'script',
+            globals: {
+                console: 'readonly',
+                window: 'readonly',
+                document: 'readonly',
+                setTimeout: 'readonly',
+                htmx: 'readonly'
+            }
+        },
+        rules: {
+            'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+            'no-console': 'off'
+        }
+    },
+    prettierConfig,
     {
         ignores: ['node_modules/', 'public/css/', '*.min.js', 'dist/']
     }
