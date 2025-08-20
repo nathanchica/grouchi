@@ -22,32 +22,186 @@
             </header>
 
             <main>
-                <div class="mx-auto mt-12 max-w-2xl overflow-hidden rounded-lg bg-orange-50 shadow-lg">
+                <!-- Stacked cards container -->
+                <div id="cards-container" class="relative mx-auto mt-12 max-w-2xl">
+                    <!-- Groucho card (back left) -->
                     <div
-                        id="about-section"
-                        hx-get="/api/cats/about/groucho_and_chica"
-                        hx-trigger="load"
-                        hx-swap="innerHTML"
+                        id="card-groucho"
+                        class="absolute top-0 right-0 left-0 -translate-x-96 translate-y-4 -rotate-2 transform cursor-pointer transition-all duration-500 hover:-translate-x-[28rem] hover:translate-y-2 hover:-rotate-3"
+                        data-position="left"
+                        data-cat="groucho"
+                        onclick="swapCards('groucho')"
                     >
-                        <div class="p-8">
-                            <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                        <div
+                            class="overflow-hidden rounded-lg bg-blue-50 opacity-60 shadow-lg transition-all duration-300 hover:opacity-90 hover:shadow-xl"
+                        >
+                            <div
+                                id="about-groucho"
+                                hx-get="/api/cats/about/groucho?show_carousel=false"
+                                hx-trigger="load"
+                                hx-swap="innerHTML"
+                            >
+                                <div class="p-8">
+                                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chica card (back right) -->
+                    <div
+                        id="card-chica"
+                        class="absolute top-0 right-0 left-0 translate-x-96 translate-y-4 rotate-2 transform cursor-pointer transition-all duration-500 hover:translate-x-[28rem] hover:translate-y-2 hover:rotate-3"
+                        data-position="right"
+                        data-cat="chica"
+                        onclick="swapCards('chica')"
+                    >
+                        <div
+                            class="overflow-hidden rounded-lg bg-pink-50 opacity-60 shadow-lg transition-all duration-300 hover:opacity-90 hover:shadow-xl"
+                        >
+                            <div
+                                id="about-chica"
+                                hx-get="/api/cats/about/chica?show_carousel=false"
+                                hx-trigger="load"
+                                hx-swap="innerHTML"
+                            >
+                                <div class="p-8">
+                                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main card (Groucho & Chica) -->
+                    <div
+                        id="card-both"
+                        class="relative z-10 transition-all duration-500"
+                        data-position="center"
+                        data-cat="groucho_and_chica"
+                    >
+                        <div class="overflow-hidden rounded-lg bg-orange-50 shadow-2xl/35">
+                            <div
+                                id="about-both"
+                                hx-get="/api/cats/about/groucho_and_chica?show_carousel=true"
+                                hx-trigger="load"
+                                hx-swap="innerHTML"
+                            >
+                                <div class="p-8">
+                                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mx-auto mt-12 max-w-2xl rounded-lg border-2 border-gray-900 bg-white p-8 shadow-lg">
-                    <h2 class="mb-4 text-2xl font-bold text-gray-800">Learn More</h2>
+                <script>
+                    let isSwapping = false;
 
-                    <div
-                        id="about-navigation-section"
-                        class="flex flex-row gap-4"
-                        hx-get="/api/cats/about_navigation/groucho_and_chica"
-                        hx-trigger="load"
-                        hx-swap="innerHTML"
-                    >
-                        <div class="flex-1 text-center">Loading navigation...</div>
-                    </div>
-                </div>
+                    function swapCards(clickedCat) {
+                        if (isSwapping) return;
+                        isSwapping = true;
+
+                        const cards = {
+                            groucho: document.getElementById('card-groucho'),
+                            chica: document.getElementById('card-chica'),
+                            both: document.getElementById('card-both')
+                        };
+
+                        // Find all card positions
+                        let centerCard = null;
+                        let leftCard = null;
+                        let rightCard = null;
+
+                        for (const [cat, card] of Object.entries(cards)) {
+                            if (card.dataset.position === 'center') {
+                                centerCard = { element: card, cat: cat === 'both' ? 'groucho_and_chica' : cat };
+                            } else if (card.dataset.position === 'left') {
+                                leftCard = { element: card, cat: cat === 'both' ? 'groucho_and_chica' : cat };
+                            } else if (card.dataset.position === 'right') {
+                                rightCard = { element: card, cat: cat === 'both' ? 'groucho_and_chica' : cat };
+                            }
+                        }
+
+                        // Don't swap if clicking the center card
+                        if (centerCard.cat === clickedCat) {
+                            isSwapping = false;
+                            return;
+                        }
+
+                        // Determine which card was clicked
+                        const clickedCard = leftCard.cat === clickedCat ? leftCard : rightCard;
+                        const otherBackCard = leftCard.cat === clickedCat ? rightCard : leftCard;
+
+                        // Three-way rotation: clicked -> center, center -> other back, other back -> clicked position
+
+                        // 1. Move clicked card to center
+                        clickedCard.element.className = 'relative z-10 transition-all duration-500';
+                        clickedCard.element.dataset.position = 'center';
+                        clickedCard.element.onclick = null;
+
+                        // 2. Move center card to the other back position (opposite of clicked)
+                        if (clickedCard === leftCard) {
+                            // Center goes to right
+                            centerCard.element.className =
+                                'absolute left-0 right-0 top-0 translate-x-96 translate-y-4 rotate-2 transform transition-all duration-500 hover:translate-x-[28rem] hover:rotate-3 hover:translate-y-2 cursor-pointer';
+                            centerCard.element.dataset.position = 'right';
+                        } else {
+                            // Center goes to left
+                            centerCard.element.className =
+                                'absolute left-0 right-0 top-0 -rotate-2 -translate-x-96 translate-y-4 transform transition-all duration-500 hover:-translate-x-[28rem] hover:-rotate-3 hover:translate-y-2 cursor-pointer';
+                            centerCard.element.dataset.position = 'left';
+                        }
+                        centerCard.element.onclick = () => swapCards(centerCard.cat);
+
+                        // 3. Move other back card to clicked position
+                        if (clickedCard === leftCard) {
+                            // Right card goes to left
+                            otherBackCard.element.className =
+                                'absolute left-0 right-0 top-0 -rotate-2 -translate-x-96 translate-y-4 transform transition-all duration-500 hover:-translate-x-[28rem] hover:-rotate-3 hover:translate-y-2 cursor-pointer';
+                            otherBackCard.element.dataset.position = 'left';
+                        } else {
+                            // Left card goes to right
+                            otherBackCard.element.className =
+                                'absolute left-0 right-0 top-0 translate-x-96 translate-y-4 rotate-2 transform transition-all duration-500 hover:translate-x-[28rem] hover:rotate-3 hover:translate-y-2 cursor-pointer';
+                            otherBackCard.element.dataset.position = 'right';
+                        }
+                        otherBackCard.element.onclick = () => swapCards(otherBackCard.cat);
+
+                        // Update carousel settings
+                        const clickedAbout = clickedCard.element.querySelector('[id^="about"]');
+                        const centerAbout = centerCard.element.querySelector('[id^="about"]');
+
+                        // Enable carousel for new center
+                        const clickedEndpoint = '/api/cats/about/' + clickedCard.cat;
+                        htmx.ajax('GET', clickedEndpoint + '?show_carousel=true', {
+                            target: clickedAbout,
+                            swap: 'innerHTML'
+                        });
+
+                        // Disable carousel for old center
+                        const centerEndpoint = '/api/cats/about/' + centerCard.cat;
+                        htmx.ajax('GET', centerEndpoint + '?show_carousel=false', {
+                            target: centerAbout,
+                            swap: 'innerHTML'
+                        });
+
+                        // Update background colors
+                        const clickedInner = clickedCard.element.querySelector('div > div');
+                        const centerInner = centerCard.element.querySelector('div > div');
+                        const otherInner = otherBackCard.element.querySelector('div > div');
+
+                        // Three-way color swap
+                        const tempClasses = clickedInner.className;
+                        clickedInner.className = centerInner.className;
+                        centerInner.className = otherInner.className;
+                        otherInner.className = tempClasses;
+
+                        // Re-enable swapping after animation completes
+                        setTimeout(() => {
+                            isSwapping = false;
+                        }, 500);
+                    }
+                </script>
             </main>
 
             <footer class="mt-12 text-center text-gray-600">

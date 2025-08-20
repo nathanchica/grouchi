@@ -8,6 +8,7 @@ export type AboutSectionProps = {
     initialPhoto: Photo;
     photos: Photo[];
     numPhotos: number;
+    shouldRenderCarousel?: boolean;
 };
 
 export type PhotoCarouselProps = {
@@ -121,7 +122,8 @@ export function renderAboutSection({
     aboutItems = [],
     initialPhoto,
     photos,
-    numPhotos
+    numPhotos,
+    shouldRenderCarousel = false
 }: AboutSectionProps): string {
     const listHtml = aboutItems.map((item) => `<li>${item}</li>`).join('');
 
@@ -133,17 +135,31 @@ export function renderAboutSection({
     const prevImageSrc = photos[prevPhotoIndex]?.src;
 
     return /* html */ `
-        ${renderPhotoCarousel({
-            alias,
-            imageSrc: src,
-            imageAlt: altText,
-            nextIndex: nextPhotoIndex,
-            prevIndex: prevPhotoIndex,
-            nextImageSrc,
-            prevImageSrc,
-            currentIndex: 0,
-            numPhotos
-        })}
+        ${
+            shouldRenderCarousel
+                ? renderPhotoCarousel({
+                      alias,
+                      imageSrc: src,
+                      imageAlt: altText,
+                      nextIndex: nextPhotoIndex,
+                      prevIndex: prevPhotoIndex,
+                      nextImageSrc,
+                      prevImageSrc,
+                      currentIndex: 0,
+                      numPhotos
+                  })
+                : /* html */ `
+            <div class="relative bg-stone-900 h-[448px]">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <img
+                        alt="${altText}"
+                        src="${src}"
+                        class="object-contain max-h-full max-w-full"
+                    />
+                </div>
+            </div>
+        `
+        }
         <div class="p-8">
             <h2 class="${subtitle ? 'mb-2' : 'mb-4'} text-2xl font-bold text-gray-800">${title}</h2>
             ${subtitle ? /* html */ `<p class="mb-4 text-gray-500 italic">${subtitle}</p>` : ''}
