@@ -82,12 +82,30 @@ export default [
                 window: 'readonly',
                 document: 'readonly',
                 setTimeout: 'readonly',
+                sessionStorage: 'readonly',
+                localStorage: 'readonly',
                 htmx: 'readonly'
             }
         },
         rules: {
             'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-console': 'off'
+        }
+    },
+    {
+        files: ['**/*.test.ts', '**/__tests__/**/*.ts'],
+        languageOptions: {
+            globals: {
+                describe: 'readonly',
+                it: 'readonly',
+                expect: 'readonly',
+                beforeEach: 'readonly',
+                afterEach: 'readonly',
+                beforeAll: 'readonly',
+                afterAll: 'readonly',
+                vi: 'readonly',
+                test: 'readonly'
+            }
         }
     },
     prettierConfig,
