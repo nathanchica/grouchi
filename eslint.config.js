@@ -28,7 +28,12 @@ export default [
                 process: 'readonly',
                 console: 'readonly',
                 __dirname: 'readonly',
-                __filename: 'readonly'
+                __filename: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly',
+                setInterval: 'readonly',
+                clearInterval: 'readonly',
+                Promise: 'readonly'
             },
             parserOptions: {
                 project: './tsconfig.eslint.json'
@@ -54,7 +59,12 @@ export default [
                 process: 'readonly',
                 console: 'readonly',
                 __dirname: 'readonly',
-                __filename: 'readonly'
+                __filename: 'readonly',
+                setTimeout: 'readonly',
+                clearTimeout: 'readonly',
+                setInterval: 'readonly',
+                clearInterval: 'readonly',
+                Promise: 'readonly'
             }
         },
         rules: {
