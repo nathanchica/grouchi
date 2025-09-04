@@ -1,4 +1,4 @@
-import { VALID_ALIASES } from '../data/cats';
+import { VALID_ALIASES } from '../data/cats.js';
 
 /**
  * Validates if a cat alias is valid

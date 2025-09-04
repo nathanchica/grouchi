@@ -1,4 +1,4 @@
-import { isValidCatAlias, isValidMessageLength, validateChatInput } from '../validation';
+import { isValidCatAlias, isValidMessageLength, validateChatInput } from '../validation.js';
 
 describe('isValidCatAlias', () => {
     it.each([

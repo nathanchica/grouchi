@@ -3,6 +3,7 @@ import prettierConfig from 'eslint-config-prettier';
 import tailwindPlugin from 'eslint-plugin-tailwindcss';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
     js.configs.recommended,
@@ -18,7 +19,8 @@ export default [
         files: ['**/*.ts', '**/*.tsx'],
         plugins: {
             '@typescript-eslint': tseslint,
-            tailwindcss: tailwindPlugin
+            tailwindcss: tailwindPlugin,
+            import: importPlugin
         },
         languageOptions: {
             parser: tsParser,
@@ -39,12 +41,31 @@ export default [
                 project: './tsconfig.eslint.json'
             }
         },
+        settings: {
+            'import/resolver': {
+                typescript: {
+                    alwaysTryTypes: true,
+                    project: './tsconfig.eslint.json'
+                }
+            }
+        },
         rules: {
             '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-unused-vars': 'off',
             'no-console': 'off',
             '@typescript-eslint/explicit-function-return-type': 'off',
-            '@typescript-eslint/no-explicit-any': 'warn'
+            '@typescript-eslint/no-explicit-any': 'warn',
+            // Enforce .js extensions for relative imports in TypeScript files
+            'import/extensions': [
+                'error',
+                'always',
+                {
+                    ts: 'never',
+                    tsx: 'never',
+                    js: 'always',
+                    jsx: 'always'
+                }
+            ]
         }
     },
     {
