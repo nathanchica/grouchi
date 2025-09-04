@@ -10,6 +10,8 @@ Images stored in [grouchi-assets](https://github.com/nathanchica/grouchi-assets)
 
 favicon from [FontAwesome](https://fontawesome.com/icons/cat?f=classic&s=solid)
 
+Generated cat messages using [OpenAI GPT-4o-mini](https://platform.openai.com/docs/models/gpt-4o-mini) and [OpenAI Node.js SDK](https://github.com/openai/openai-node)
+
 ## Development
 
 ```

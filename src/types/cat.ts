@@ -12,5 +12,6 @@ export interface Cat {
     aboutItems?: Array<string>;
     navigationThumbnailImgSrc: string;
     navigationThumbnailImgAlt: string;
+    profilePhoto?: Photo;
     photos: Array<Photo>;
 }
