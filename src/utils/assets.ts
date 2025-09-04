@@ -1,4 +1,4 @@
-export function getAssetUrl(alias: string, type: 'nav' | number): string {
+export function getAssetUrl(alias: string, type: 'nav' | 'thumbnail' | number): string {
     const formattedAlias = alias.replaceAll('_', '-');
     const filePrefix = formattedAlias === 'groucho-and-chica' ? 'grouchi' : formattedAlias;
     const formattedType = typeof type === 'number' ? type.toString() : type;

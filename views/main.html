@@ -15,10 +15,10 @@
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         <script src="https://kit.fontawesome.com/08508bca30.js" crossorigin="anonymous"></script>
     </head>
-    <body class="font-family-merriweather min-h-screen bg-gradient-to-br from-orange-50 via-white to-gray-100">
+    <body class="font-family-merriweather min-h-dvh bg-gradient-to-br from-orange-50 via-white to-gray-100">
         <div class="container mx-auto px-4 py-8">
             <header class="mb-12 text-center">
-                <h1 class="font-family-playfair mb-4 text-6xl font-black text-gray-900">Groucho & Chica</h1>
+                <h1 class="font-family-playfair mb-4 text-4xl font-black text-gray-900 md:text-6xl">Groucho & Chica</h1>
             </header>
 
             <main>
@@ -91,6 +91,35 @@
                         </div>
                     </div>
                 </div>
+
+                <div
+                    id="chat-container"
+                    class="mt-24 h-[600px] rounded-lg border-2 border-dashed border-gray-300 bg-white"
+                >
+                    <div id="chat-view" class="grid h-full grid-cols-12">
+                        <div
+                            id="chat-navigation"
+                            class="col-span-3 py-8 pl-8"
+                            hx-get="/api/chat/nav"
+                            hx-trigger="load"
+                            hx-swap="outerHTML"
+                        >
+                            <div class="p-8">
+                                <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                            </div>
+                        </div>
+                        <div
+                            id="chat-messages"
+                            hx-get="/api/chat/messages/groucho"
+                            hx-trigger="load"
+                            hx-swap="outerHTML"
+                        >
+                            <div class="p-8">
+                                <h2 class="mb-4 text-2xl font-bold text-gray-800">Loading...</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <footer class="mt-12 text-center text-gray-600">
@@ -99,5 +128,6 @@
         </div>
 
         <script src="/js/cardSwap.js"></script>
+        <script src="/js/chat.js"></script>
     </body>
 </html>

@@ -161,9 +161,9 @@ export function renderAboutSection({
         `
         }
         <div class="p-8">
-            <h2 class="${subtitle ? 'mb-2' : 'mb-4'} text-2xl font-bold text-gray-800">${title}</h2>
-            ${subtitle ? /* html */ `<p class="mb-4 text-gray-500 italic">${subtitle}</p>` : ''}
-            <ul role="list" class="list-inside list-disc space-y-2 text-gray-700">
+            <h2 class="${subtitle ? 'mb-2' : 'mb-4'} text-xl md:text-2xl font-bold text-gray-800">${title}</h2>
+            ${subtitle ? /* html */ `<p class="mb-4 text-sm md:text-base text-gray-500 italic">${subtitle}</p>` : ''}
+            <ul role="list" class="list-inside list-disc space-y-2 text-sm md:text-base text-gray-700">
                 ${listHtml}
             </ul>
         </div>

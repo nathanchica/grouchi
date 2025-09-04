@@ -23,6 +23,10 @@ export const catsData: { [alias: string]: Cat } = {
         ],
         navigationThumbnailImgSrc: getAssetUrl('groucho', 'nav'),
         navigationThumbnailImgAlt: 'Groucho the Cat, laying on a woven blanket',
+        profilePhoto: {
+            src: getAssetUrl('groucho', 'thumbnail'),
+            altText: 'Groucho the Cat'
+        },
         photos: [
             {
                 src: getAssetUrl('groucho', 1),
@@ -129,6 +133,10 @@ export const catsData: { [alias: string]: Cat } = {
         ],
         navigationThumbnailImgSrc: getAssetUrl('chica', 'nav'),
         navigationThumbnailImgAlt: 'Chica the Cat, sitting by a window overlooking a city',
+        profilePhoto: {
+            src: getAssetUrl('chica', 'thumbnail'),
+            altText: 'Chica the Cat'
+        },
         photos: [
             {
                 src: getAssetUrl('chica', 1),

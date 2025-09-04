@@ -2,8 +2,9 @@ import { Router, Request, Response } from 'express';
 import { calculateAge } from '../src/utils/date.js';
 import { renderNavigationItem, NavigationItemProps } from '../src/components/navigation.js';
 import { renderAboutSection, renderPhotoCarousel } from '../src/components/about.js';
-import { catsData, VALID_ALIASES } from '../src/data/cats.js';
+import { catsData } from '../src/data/cats.js';
 import { getAssetUrl } from '../src/utils/assets.js';
+import { isValidCatAlias } from '../src/utils/validation.js';
 
 const router: Router = Router();
 
@@ -135,7 +136,7 @@ router.get('/about/:alias/photos/:index', (req: Request, res: Response): void =>
     const catAlias = req.params.alias.toLowerCase();
     const transitionDirection = req.query.direction as 'next' | 'prev' | undefined;
 
-    if (!VALID_ALIASES.includes(catAlias)) {
+    if (!isValidCatAlias(catAlias)) {
         res.status(404).send(/* html */ `
             <div class="p-8">
                 <h2 class="mb-4 text-2xl font-bold text-red-500">Cat not found!</h2>
