@@ -3,6 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Response truncation constants
+const MAX_RESPONSE_LENGTH = 60;
+const MIN_PUNCTUATION_POSITION = 15;
+const MIN_WORD_POSITION = 30;
+
 const openaiApiKey = process.env.OPENAI_API_KEY;
 
 if (!openaiApiKey) {
@@ -26,10 +31,10 @@ export async function catify(userText: string, catAlias?: 'groucho' | 'chica'): 
 
     const catPersonality =
         catAlias === 'groucho'
-            ? 'Be food-obsessed, mischievous but easily scared, cuddly but on your terms. You love boxes and head scratches.'
+            ? 'Your name is Groucho. You live with your sister cat Chica. Be food-obsessed, mischievous but easily scared, cuddly but on your terms. You love boxes and head scratches. You sometimes bother Chica.'
             : catAlias === 'chica'
-              ? 'Be playful, curious about everything, quietly affectionate. You love chasing things and making messes.'
-              : 'Be a typical mischievous house cat, sometimes cuddly, sometimes chaotic.';
+              ? 'Your name is Chica. You live with your brother cat Groucho. Be playful, curious about everything, quietly affectionate. You love chasing things and making messes. Groucho sometimes bothers you.'
+              : 'You are a house cat who lives with other cats named Groucho and Chica. Be a typical mischievous house cat, sometimes cuddly, sometimes chaotic.';
 
     try {
         const response = await client.chat.completions.create({
@@ -38,11 +43,14 @@ export async function catify(userText: string, catAlias?: 'groucho' | 'chica'): 
                 {
                     role: 'system',
                     content:
-                        'You are a friendly house cat.' +
-                        'Use playful and phonetic spelling.' +
-                        'Never respond with full sentences or complex grammar.' +
+                        'You are a friendly house cat. ' +
+                        'Use playful and phonetic spelling. ' +
+                        'Never respond with full sentences or complex grammar. ' +
+                        'Keep responses VERY short - under 15 words ideal. ' +
                         catPersonality +
-                        'Your favorite things are eating, sleeping, and causing minor chaos.'
+                        ' ' +
+                        'Your favorite things are eating, sleeping, and causing minor chaos. ' +
+                        'You can refer to yourself by name and mention your sibling cat when relevant.'
                 },
                 {
                     role: 'user',
@@ -50,10 +58,33 @@ export async function catify(userText: string, catAlias?: 'groucho' | 'chica'): 
                 }
             ],
             temperature: 0.8,
-            max_tokens: 50
+            max_tokens: 75
         });
 
-        return response.choices[0].message.content?.toLowerCase().trim() ?? 'meow?';
+        let catResponse = response.choices[0].message.content?.toLowerCase().trim() ?? 'meow?';
+
+        // Clean up truncated responses - remove incomplete sentences/words
+        if (catResponse.length > MAX_RESPONSE_LENGTH) {
+            // Find last complete punctuation or space before cutoff
+            const lastPunctuation = Math.max(
+                catResponse.lastIndexOf('!'),
+                catResponse.lastIndexOf('?'),
+                catResponse.lastIndexOf('.'),
+                catResponse.lastIndexOf('~')
+            );
+
+            if (lastPunctuation > MIN_PUNCTUATION_POSITION) {
+                catResponse = catResponse.substring(0, lastPunctuation + 1);
+            } else {
+                // Fallback: cut at last complete word
+                const lastSpace = catResponse.lastIndexOf(' ', MAX_RESPONSE_LENGTH);
+                if (lastSpace > MIN_WORD_POSITION) {
+                    catResponse = catResponse.substring(0, lastSpace) + '...';
+                }
+            }
+        }
+
+        return catResponse;
     } catch (error) {
         console.error('OpenAI API error:', error);
         return 'hisss... no thinkz happen :(';
